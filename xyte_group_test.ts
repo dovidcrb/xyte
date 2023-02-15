@@ -16,6 +16,10 @@ test("Login into Xyte", async t => {
     const addGroupNameTitle = Selector('.modal-title').withText('Add Access');
     const addGroupName = Selector('[name="name"]');
     const buttonAddGroupName = Selector('[type="submit"]').withText('Create');
+    const errorNameAlreadyExists = Selector('.rrt-text').withText('Name has already been taken');
+    const buttonCloseGroupNameWindow = Selector('[type="button"]').withText('Close');
+    const buttonOpenSignOutWindow = Selector('.user-name')
+    const buttonSignOut = Selector('.mantine-Menu-itemLabel').withText('Sign out');
     
     // Verify that user has arrived on the Login page
     await t.expect(pageTitle.withText('Sign-In').exists).ok();
@@ -34,13 +38,20 @@ test("Login into Xyte", async t => {
     await t.typeText(addGroupName, 'Boris Microwave Services');
     await t.click(buttonAddGroupName);
 
+    // Verify if add group with same name error message generated
+    await t.expect(errorNameAlreadyExists.exists).ok(); 
+    
+    // Logout
+    await t.click(buttonCloseGroupNameWindow);
+    await t.click(buttonOpenSignOutWindow);
+    await t.click(buttonSignOut);
 
 
 });
 
 
-// Test Group
 
-// Add Group with same name as first group
+
+
 
 // Logout
