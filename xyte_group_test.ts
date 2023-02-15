@@ -3,8 +3,7 @@ import { Selector } from 'testcafe';
 fixture `Xyte Group Test`
     .page('https://dovid-microwaves.on-xyte.com/auth/sign-in');
 
-test("Login into Xyte", async t => {
-    // Login
+test("Group creation for Xyte", async t => {
     const pageTitle = Selector('.mantine-Text-root');
     const userName = Selector('[name="email"]');
     const passWord = Selector('[name="password"]');
@@ -21,37 +20,31 @@ test("Login into Xyte", async t => {
     const buttonOpenSignOutWindow = Selector('.user-name')
     const buttonSignOut = Selector('.mantine-Menu-itemLabel').withText('Sign out');
     
-    // Verify that user has arrived on the Login page
-    await t.expect(pageTitle.withText('Sign-In').exists).ok();
+    // Verify that user has arrived on the Login page and logins
     await t
+        .expect(pageTitle.withText('Sign-In').exists).ok()
         .typeText(userName, 'dkrongold@gmail.com')
-        .typeText(passWord, '1234qwerASDF!@#$7890');
-    await t.click(submitButton);
+        .typeText(passWord, '1234qwerASDF!@#$7890')
+        .click(submitButton);
+
     // Verify that the user arrived on the Home page
     await t.expect(menuOrg.exists).ok();
     
     // Add Group
-    await t.click(menuSettings);
-    await t.click(tabGroups);
-    await t.click(buttonCreateGroup);
-    await t.expect(addGroupNameTitle.exists).ok();
-    await t.typeText(addGroupName, 'Boris Microwave Services');
-    await t.click(buttonAddGroupName);
+    await t
+        .click(menuSettings)
+        .click(tabGroups)
+        .click(buttonCreateGroup)
+        .expect(addGroupNameTitle.exists).ok()
+        .typeText(addGroupName, 'Boris Microwave Services')
+        .click(buttonAddGroupName);
 
     // Verify if add group with same name error message generated
     await t.expect(errorNameAlreadyExists.exists).ok(); 
     
     // Logout
-    await t.click(buttonCloseGroupNameWindow);
-    await t.click(buttonOpenSignOutWindow);
-    await t.click(buttonSignOut);
-
-
+    await t
+        .click(buttonCloseGroupNameWindow)
+        .click(buttonOpenSignOutWindow)
+        .click(buttonSignOut);
 });
-
-
-
-
-
-
-// Logout
